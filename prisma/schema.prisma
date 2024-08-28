@@ -1,0 +1,38 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Reviewer {
+  id            Int            @id @default(autoincrement())
+  shop_id       Int            @unique
+  reviewer      String         @db.Text
+  role          Int
+  rating        Int
+  detail_reviewer_id   Int?    
+
+  detailReviewer DetailReviewer? @relation("DetailReviewerToReviewer")
+
+  @@map("reviewers")
+}
+
+model DetailReviewer {
+  id                Int    @id @default(autoincrement())
+  reviewer_id       Int    @unique @map("reviwer_id")
+  detailed_reviewer_1 Int
+  detailed_reviewer_2 Int
+
+  reviewer          Reviewer @relation(fields: [reviewer_id], references: [id], name: "DetailReviewerToReviewer", onDelete: Cascade)
+
+  @@map("detail_reviewers")
+}
+
+
+
