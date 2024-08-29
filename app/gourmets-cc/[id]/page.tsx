@@ -16,9 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 const ShopDetailPage = ({ params }: { params: { id: string } }) => {
-  //const router = useRouter();
   
-  //const id = 
   
   
   const [shop, setShop] = useState<Shop | null>(null);
@@ -63,65 +61,68 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <h1>{shop.name}</h1>
+      <h1 className="text-3xl font-bold mt-4">{shop.name}</h1>
       
       
       {/* <img src={shop.photo.pc.m} alt={shop.name} /> */}
-      <div className="flex-col devide-y devide-white">
-        <div className="flex-row">
-        <p>住所 {shop.access}</p>
-          
-        </div>
-        <div className="flex-row">
-          <p></p>
-          <p>{shop.genre?.name}</p>
-        </div>
-        <div className="flex-row">
-          <p>{shop.catch}</p>
-        </div>
-        <div className="flex-row">
-          <p>営業時間</p>
-          <p>{shop.open}</p>
-        </div> 
-      </div>
     <div className="flex flex-row">
       
-      <Card className=" max-w-3xl p-6 bg-white shadow-lg rounded-lg">
+      {/*店の写真を載せようかなと*/}
+      <Card className=" p-6 max-w-xl  bg-white shadow-lg rounded-lg">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold mt-4">{shop.name}</CardTitle>
+          <CardTitle className="text-3xl font-bold mt-4"></CardTitle>
         </CardHeader>
         <CardContent className="mt-6 space-y-4 text-center">
           <Carousel>
             <CarouselContent>
               <CarouselItem>
-                
-                 1 {/* <Avatar className="w-max h-max mx-auto">
-                    <AvatarImage src={shop.photo.pc.s} alt={shop.name} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar> */}
-                  
-                
-          </CarouselItem>
-          <CarouselItem>2</CarouselItem>
-          <CarouselItem>3</CarouselItem>
-          <CarouselItem>4</CarouselItem>
-          <CarouselItem>5</CarouselItem>
+                 src={shop.photo.pc.l} alt={shop.name} 
+              </CarouselItem>
+          <CarouselItem>{shop.photo.pc.l}alt={shop.name} </CarouselItem>
+          <CarouselItem>{}</CarouselItem>
+          <CarouselItem></CarouselItem>
+          <CarouselItem></CarouselItem>
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
           </Carousel>
         </CardContent>
       </Card>
-      <div className="flex flex-col items-wide justify-start min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+
+      {/*上から評価、価格、ジャンル、エリア、営業時間*/}
+      <div className="flex flex-col items-center justify-start min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      
       <Card className="w-full max-w-3xl p-6 bg-white shadow-lg rounded-lg">
         <CardHeader className="text-center">
           
         </CardHeader>
         <CardContent className="mt-6 space-y-4 text-center">
-          <p className="text-xl font-medium text-gray-700">{shop.address}</p>
-          <p className="text-lg text-gray-500">{shop.genre?.name || "ジャンル情報なし"}</p>
-          <p className="text-lg text-gray-500">{shop.catch || "キャッチ情報なし"}</p>
-          <p className="text-lg text-gray-500">{shop.open || "営業時間情報なし"}</p>
+          {/* 価格 */}
+          <p className="text-xl font-medium text-gray-700">価格：{shop.budget.name||"情報なし"}</p>
+          <p className="text-lg text-gray-500">ジャンル：{shop.genre?.name || "情報なし"}</p>
+          <p className="text-lg text-gray-500">エリア：{shop.address || "情報なし"}</p>
+          <p className="text-lg text-gray-500">営業時間：{shop.open || "情報なし"}</p>
+          <p className="text-lg text-gray-500">定休日：{shop.close || "情報なし"}</p>
+        </CardContent>
+      </Card>
+      </div>
+
+
+      {/*１カード内に個室、駐車場、一部禁煙、カード決済、対応人数、電話番号、住所、お店のURL*/}
+      <div className="flex flex-col place-items-end justify-start min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-3xl p-6 bg-white shadow-lg rounded-lg">
+        <CardHeader className="text-center">
+          
+        </CardHeader>
+        <CardContent className="mt-6 space-y-4 text-center">
+          <p className="text-xl font-medium text-gray-700">個室：{shop.private_room||"情報なし"}</p>
+          <p className="text-lg text-gray-500">駐車場：{shop.parking || "情報なし"}</p>
+          <p className="text-lg text-gray-500">喫煙席：{shop.non_smoking || "情報なし"}</p>
+          <p className="text-lg text-gray-500">カード決済：{shop.card || "情報なし"}</p>
+          <p className="text-lg text-gray-500">総席数：{shop.capacity || "情報なし"}</p>
+          {/* <p className="text-lg text-gray-500">{shop.tel"電話番号情報なし"}</p>  */}
+          <p className="text-lg text-gray-500">住所：{shop.address || "情報なし"}</p>
+          {/* <p className="text-lg text-gray-500">{shop.urls || "情報なし"}</p> */}
         </CardContent>
       </Card>
       </div>
@@ -129,7 +130,7 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
     </div>
     <div>
       <Button type="submit" className="max-w-sm">
-        検索
+        予約する
       </Button>
     </div>
     </div>

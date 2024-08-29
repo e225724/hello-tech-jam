@@ -42,6 +42,7 @@ function handleError(error: unknown): NextResponse {
 
 
 export async function GET(
+    request: Request,
     { params }: { params?: { id: string } },
   ) {
     console.log(params);
@@ -58,6 +59,9 @@ export async function GET(
         format: "json",
         id: params.id,
       });
+
+      
+
       const url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
       const shops = await fetchHotpepperData(url);
   
