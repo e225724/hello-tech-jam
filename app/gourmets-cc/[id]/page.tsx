@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ShopDetailPage = ({ params }: { params: { id: string } }) => {
   //const router = useRouter();
@@ -43,7 +44,7 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     // 店舗データを取得する関数
     const fetchStoreData = async () => {
-      const response = await fetch(`/api/shops/${params.id}`);
+      const response = await fetch(`/api/shops?${params.id}`);
       const data = await response.json();
       setShop(data);
     };
@@ -55,35 +56,44 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
     console.log("shop id",params.id);
     return <div>Loading...</div>;
   }
+  console.log(shop);
+  console.log(params.id);
+  
 
   return (
     <div>
-      <h1>{shop.name}</h1>
+      <h1>{shop[0].name}</h1>
+      
       <Carousel>
         <CarouselContent>
-          <CarouselItem><img src={shop.photo.pc.m} alt={shop.name} /></CarouselItem>
-          <CarouselItem>...</CarouselItem>
+          {/* <CarouselItem><img src={shop.photo.pc.m} alt={shop.name} /></CarouselItem> */}
+          <CarouselItem>
+            <Avatar className="w-12 h-12">
+                      {/* <AvatarImage src={shop.photo} /> */}
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+            </CarouselItem>
           <CarouselItem>...</CarouselItem>
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <img src={shop.photo.pc.m} alt={shop.name} />
+      {/* <img src={shop.photo.pc.m} alt={shop.name} /> */}
       <div className="flex-col devide-y devide-white">
         <div className="flex-row">
-          <p>住所</p>
-          <p>{shop.address}</p>
+        <p>住所 {shop[0].access}</p>
+          
         </div>
         <div className="flex-row">
           <p></p>
-          <p>{shop.genre?.name}</p>
+          <p>{shop[0].genre?.name}</p>
         </div>
         <div className="flex-row">
-          <p>{shop.catch}</p>
+          <p>{shop[0].catch}</p>
         </div>
         <div className="flex-row">
           <p>営業時間</p>
-          <p>{shop.open}</p>
+          <p>{shop[0].open}</p>
         </div> 
       </div>
       
