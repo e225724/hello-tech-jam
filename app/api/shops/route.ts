@@ -11,6 +11,7 @@ class APIError extends Error {
 }
 
 async function fetchHotpepperData(url: string): Promise<any> {
+  console.log("fetchHandler");
   const response = await fetch(url);
   if (!response.ok) {
     throw new APIError(
@@ -40,6 +41,7 @@ function handleError(error: unknown): NextResponse {
 }
 
 export async function GET(request: Request) {
+  console.log("GET");
   try {
     const { searchParams } = new URL(request.url);
     const key = process.env.HOTPEPPER_API_KEY;
@@ -55,7 +57,7 @@ export async function GET(request: Request) {
 
     const keyword = searchParams.get("keyword");
     if (keyword) query.set("keyword", keyword);
-
+    console.log("GET関数が実行されている");
     const url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
     const data = await fetchHotpepperData(url);
     return NextResponse.json(data);

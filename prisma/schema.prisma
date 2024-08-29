@@ -11,28 +11,23 @@ datasource db {
 }
 
 model Reviewer {
-  id            Int            @id @default(autoincrement())
-  shop_id       Int            @unique
-  reviewer      String         @db.Text
-  role          Int
-  rating        Int
-  detail_reviewer_id   Int?    
-
-  detailReviewer DetailReviewer? @relation("DetailReviewerToReviewer")
+  id             Int             @id @default(autoincrement())
+  shop_id        String
+  reviewer       String          @db.Text
+  role           Int
+  rating         Int
+  reviewer_id    Int             @unique
+  detailReviewer DetailReviewer? @relation("ReviewerToDetailReviewer")
 
   @@map("reviewers")
 }
 
 model DetailReviewer {
-  id                Int    @id @default(autoincrement())
-  reviewer_id       Int    @unique @map("reviwer_id")
+  id                Int      @id @default(autoincrement())
+  reviewer_id       Int      @unique
   detailed_reviewer_1 Int
   detailed_reviewer_2 Int
-
-  reviewer          Reviewer @relation(fields: [reviewer_id], references: [id], name: "DetailReviewerToReviewer", onDelete: Cascade)
+  reviewer          Reviewer @relation("ReviewerToDetailReviewer", fields: [reviewer_id], references: [id], onDelete: Cascade)
 
   @@map("detail_reviewers")
 }
-
-
-
