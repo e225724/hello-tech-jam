@@ -1,33 +1,111 @@
-import * as React from "react"
+"use client"
+
+import Link from "next/link"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 
+
+const FormSchema = z.object({
+  email: z
+    .string({
+      required_error: "予算額を選択してください",
+    })
+    .email(),
+})
+
 export function TogglePrice() {
+  const [value, setValue] = useState([]);
+  const handleClick = (range) => {
+    let newValue;
+    switch (range) {
+      case '2000':
+        newValue = ["B009", "B011", "B010", "B009"];
+        break;
+      case '3000-4000':
+        newValue = ["B003"];
+        break;
+      case '4000-5000':
+        newValue = ["B008"];
+        break;
+      case '5000':
+        newValue = ["B004","B005","B006","B012","B013","B014",];
+        break;
+      default:
+        newValue = [];
+    }
+    setValue(newValue);
+  };
+  
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  })
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+   {/*} toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    })*/}
+    
+    
+  }
+
   return (
-    <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="予算額を選択" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>予算</SelectLabel>
-          <SelectItem value="~2000">~2000</SelectItem>
-          <SelectItem value="2000~4000">2000~4000</SelectItem>
-          <SelectItem value="4000~5000">4000~5000</SelectItem>
-          <SelectItem value="5000~">5000~</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control}
+          name="予算額"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>予算額</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="予算額を選択する" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                    <SelectItem onClick={() => handleClick('2000')}>～2000</SelectItem>
+                    <SelectItem onClick={() => handleClick('3000')}>2001～4000</SelectItem>
+                    <SelectItem onClick={() => handleClick('4000')}>4001～5000</SelectItem>
+                    <SelectItem onClick={() => handleClick('5000')}>5001～</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   )
 }
+
 
 
 
