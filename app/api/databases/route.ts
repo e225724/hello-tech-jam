@@ -8,7 +8,7 @@ export async function fetchDataBase(shopId: string): Promise<any> {
     where: {
       shop_id: shopId,
     },
-    /*
+
     include: {
       detailReviewer: {
         select: {
@@ -17,7 +17,6 @@ export async function fetchDataBase(shopId: string): Promise<any> {
         },
       },
     },
-    */
   });
 
   console.log();
@@ -29,10 +28,9 @@ export async function fetchDataBase(shopId: string): Promise<any> {
     reviewer: reviewer.reviewer,
     rating: reviewer.rating,
     role: reviewer.role,
-    /*
+
     detailed_review_1: reviewer.detailReviewer?.detailed_reviewer_1, // 修正
     detailed_review_2: reviewer.detailReviewer?.detailed_reviewer_2, // 修正
-    */
   }));
 
   return result;
