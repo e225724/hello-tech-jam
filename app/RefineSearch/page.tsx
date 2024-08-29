@@ -43,6 +43,7 @@ export default function Page() {
         <ToggleMember />
         <TogglePlace />
         <TogglePrice />
+        <SelectForm />
 
       </div>
       <div className="flex items-center justify-center gap-20">
@@ -56,7 +57,7 @@ export default function Page() {
 
       </div>
       <div className="flex items-center justify-center gap-20">
-        <button>絞り込み検索機能</button>
+        <button>絞り込み検索</button>
       </div>
     </div>
   );
