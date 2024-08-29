@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+// import { shops } from "./data";
 
 class APIError extends Error {
   constructor(
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
     const query = new URLSearchParams({
       key,
       format: "json",
+      id: searchParams.get("id")||"",
       large_area: searchParams.get("large_area") || "Z098",
     });
 

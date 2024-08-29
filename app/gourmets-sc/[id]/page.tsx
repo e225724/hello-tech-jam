@@ -2,6 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Shop } from "../../../types";
 import React from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 const ShopDetailPage = () => {
   const router = useRouter();
@@ -25,6 +32,15 @@ const ShopDetailPage = () => {
   return (
     <div>
       <h1>{shop.name}</h1>
+      <Carousel>
+        <CarouselContent>
+          <CarouselItem><img src={shop.photo.pc.m} alt={shop.name} /></CarouselItem>
+          <CarouselItem>...</CarouselItem>
+          <CarouselItem>...</CarouselItem>
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
       <img src={shop.photo.pc.m} alt={shop.name} />
       <p>{shop.address}</p>
       <p>{shop.genre?.name}</p>
