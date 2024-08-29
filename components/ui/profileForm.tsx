@@ -19,11 +19,11 @@ import { Slider } from "@/components/ui/slider";
 const formSchema = z.object({
   price: z
     .number()
-    .min(0, {
-      message: "Price must be at least 0.",
+    .min(-50, {
+      message: "静かさMAX",
     })
-    .max(100, {
-      message: "Price must be at most 100.",
+    .max(50, {
+      message: "うるささMAX",
     })
     .default(0),
 });
@@ -53,10 +53,10 @@ export default function ProfileForm() {
                 <FormLabel>Price - {value}</FormLabel>
                 <FormControl>
                   <Slider
-                    min={0}
-                    max={100}
+                    min={-50}
+                    max={50}
                     step={1}
-                    defaultValue={[value]}
+                    defaultValue={[0]}
                     onValueChange={onChange}
                   />
                 </FormControl>

@@ -1,18 +1,26 @@
-"use client";
-
+// components/ui/star-rating.tsx
 import React, { useState } from "react";
 
-// Starのプロパティの型定義
 interface StarProps {
   filled: boolean;
   onClick: () => void;
 }
 
-const StarRating: React.FC<{ totalStars?: number }> = ({ totalStars = 5 }) => {
+interface StarRatingProps {
+  onRatingChange: (rating: number) => void;
+  totalStars?: number;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({
+  totalStars = 5,
+  onRatingChange,
+}) => {
   const [rating, setRating] = useState<number>(0);
 
   const handleClick = (index: number) => {
-    setRating(index + 1);
+    const newRating = index + 1;
+    setRating(newRating);
+    onRatingChange(newRating);
   };
 
   return (
