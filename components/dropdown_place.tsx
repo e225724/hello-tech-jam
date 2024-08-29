@@ -1,42 +1,31 @@
-"use client";
+import * as React from "react"
 
-import * as React from "react";
-
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export function TogglePlace() {
-
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>
-          <span className="sr-only">Toggle Place</span>
-          <p>場所</p>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          国際通り
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          久茂地
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          新都心
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          おもろまち
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          その他
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+    <Select>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="場所を選択" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>場所</SelectLabel>
+          <SelectItem value="国際通り">国際通り</SelectItem>
+          <SelectItem value="新都心">新都心</SelectItem>
+          <SelectItem value="おもろまち">おもろまち</SelectItem>
+          <SelectItem value="久茂地">久茂地</SelectItem>
+          <SelectItem value="その他">その他</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
 }
