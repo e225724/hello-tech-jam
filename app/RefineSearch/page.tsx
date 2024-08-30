@@ -1,22 +1,21 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ToggleMember } from "@/components/dropdown_member";
-//import { ToggleGenre } from "@/components/dropdown_genre";
 import { TogglePlace } from "@/components/dropdown_place";
 import { TogglePrice } from "@/components/dropdown_price";
 import { CheckboxOrder } from "@/components/CheckboxOrder";
 import { Calendar } from "@/components/ui/calendar";
 
-import { useToast } from "@/components/ui/use-toast";
-
 export default function Page() {
-  const [keyword, setKeyword,] = useState("");
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-
+  const [keyword, setKeyword] = useState("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [memberRange, setMemberRange] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<string[]>([]);
+  const [placeRange, setPlaceRange] = useState<string[]>([]);
+  const [checkboxOrder, setCheckboxOrder] = useState<string[]>([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -26,9 +25,28 @@ export default function Page() {
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log("button click", keyword, );
+    console.log("button click", keyword, memberRange, priceRange, placeRange, CheckboxOrder);
   };
 
+  const handleMemberSelect = (selectedArray: string[]) => {
+    console.log("selectedArray", selectedArray);
+    setMemberRange(selectedArray);
+  };
+
+  const handlePriceSelect = (selectedArray1: string[]) => {
+    console.log("selectedArray1", selectedArray1);
+    setPriceRange(selectedArray1);
+  };
+
+  const handlePlaceSelect = (selectedArray2: string[]) => {
+    console.log("selectedArray2", selectedArray2);
+    setPlaceRange(selectedArray2);
+  };
+
+  const handleCheckboxOrder = (selectedArray3: string[]) => {
+    console.log("selectedArray3", selectedArray3);
+    setCheckboxOrder(selectedArray3);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center pt-36 pb-13">
@@ -42,20 +60,18 @@ export default function Page() {
       </form>
 
       <div className="flex items-center justify-center gap-20">
-        <ToggleMember />
-        <TogglePlace />
-        <TogglePrice />
-
+        <ToggleMember onMemberSelect={handleMemberSelect} />
+        <TogglePlace onPlaceSelect={handlePlaceSelect}/>
+        <TogglePrice onPriceSelect={handlePriceSelect} />
       </div>
       <div className="flex items-center justify-center gap-20">
-       <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-        className="rounded-md border"
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-md border"
         />
-        <CheckboxOrder />
-
+        <CheckboxOrder onCheckboxOrder={handleCheckboxOrder} />
       </div>
       <div className="flex items-center justify-center gap-20">
         <Button type="submit" onClick={handleButtonClick} className="max-w-sm">

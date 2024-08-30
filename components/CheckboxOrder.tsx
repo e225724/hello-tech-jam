@@ -1,5 +1,6 @@
 "use client"
 
+import React, { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -34,12 +35,13 @@ const items = [
 
 const FormSchema = z.object({
     items: z.array(z.string())
-    /*{{
-    message: "You have to select at least one item.",
-  }}),*/
 })
 
-export function CheckboxOrder() {
+export function CheckboxOrder({
+  onCheckboxOrder,
+}: {
+  onCheckboxOrder: (selectedArray2: string[]) => void;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,26 +49,19 @@ export function CheckboxOrder() {
     },
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    input(data)
-    //console.log(data)
-    {/*toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })*/}
+  const [selectedArray3, setSelectedArray3] = useState<string[]>([])
+
+  function onRangeChange(value: string) {
+    let arrayToSave: string[] = []
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8">
         <FormField
           control={form.control}
           name="items"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <div className="mb-4">
                 <FormLabel className="text-base">その他絞り込み条件</FormLabel>
@@ -96,7 +91,9 @@ export function CheckboxOrder() {
                                       (value) => value !== item.id
                                     )
                                   )
+                                onRangeChange(value);
                             }}
+                            defaultValue={field.value}
                           />
                         </FormControl>
                         <FormLabel className="font-normal">

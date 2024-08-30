@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-//import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
   range: z.string({
@@ -30,17 +29,21 @@ const FormSchema = z.object({
   }),
 })
 
-export function TogglePlace() {
+export function TogglePlace({
+  onPlaceSelect,
+}: {
+  onPlaceSelect: (selectedArray2: string[]) => void;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
   
   const [selectedArray, setSelectedArray] = useState<string[]>([])
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onRangeChange(value: string) {
     let arrayToSave: string[] = []
 
-    switch(data.range) {
+    switch(value) {
       case "国際通り":
         arrayToSave = ["X114"]
         break
@@ -59,31 +62,31 @@ export function TogglePlace() {
     }
 
     // useStateで保存
-    setSelectedArray(arrayToSave)
+    setSelectedArray(arrayToSave);
+
+    onPlaceSelect(arrayToSave);
     
     // コンソールに出力
-    console.log(arrayToSave)
-{/*}
-    toast({
-      title: "You selected the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(arrayToSave, null, 2)}</code>
-        </pre>
-      ),
-    })*/}
+    console.log(arrayToSave);
+
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6">
         <FormField
           control={form.control}
           name="range"
           render={({ field }) => (
             <FormItem>
               <FormLabel>場所</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select 
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  onRangeChange(value);
+                }} 
+                defaultValue={field.value}
+                >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="場所を選択してください" />
@@ -101,7 +104,6 @@ export function TogglePlace() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

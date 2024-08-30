@@ -1,11 +1,9 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -13,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 import {
   Select,
@@ -21,75 +19,78 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-//import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
   range: z.string({
     required_error: "人数を選択してください",
   }),
-})
+});
 
-export function ToggleMember() {
+export function ToggleMember({
+  onMemberSelect,
+}: {
+  onMemberSelect: (selectedArray: string[]) => void;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-  })
-  
-  const [selectedArray, setSelectedArray] = useState<string[]>([])
+  });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    let arrayToSave: string[] = []
+  const [selectedArray, setSelectedArray] = useState<string[]>([]);
 
-    switch(data.range) {
+  function onRangeChange(value: string) {
+    let arrayToSave: string[] = [];
+
+    switch (value) {
       case "0-10":
-        arrayToSave = ["0", "10"]
-        break
+        arrayToSave = ["0", "10"];
+        break;
       case "11-30":
-        arrayToSave = ["11", "30"]
-        break
+        arrayToSave = ["11", "30"];
+        break;
       case "31-50":
-        arrayToSave = ["31", "50"]
-        break
+        arrayToSave = ["31", "50"];
+        break;
       case "51-70":
-        arrayToSave = ["51", "70"]
-        break
+        arrayToSave = ["51", "70"];
+        break;
       case "71-100":
-        arrayToSave = ["71", "100"]
-        break
+        arrayToSave = ["71", "100"];
+        break;
       case "100-150":
-        arrayToSave = ["100", "150"]
-        break
+        arrayToSave = ["100", "150"];
+        break;
       case "151+":
-        arrayToSave = ["151", ""]
-        break
+        arrayToSave = ["151", ""];
+        break;
     }
 
     // useStateで保存
-    setSelectedArray(arrayToSave)
-    
+    setSelectedArray(arrayToSave);
+
+    // コールバック関数を呼び出して親コンポーネントにデータを渡す
+    onMemberSelect(arrayToSave);
+
     // コンソールに出力
-    console.log(arrayToSave)
-{/*}
-    toast({
-      title: "You selected the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(arrayToSave, null, 2)}</code>
-        </pre>
-      ),
-    })*/}
+    console.log(arrayToSave);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6">
         <FormField
           control={form.control}
           name="range"
           render={({ field }) => (
             <FormItem>
               <FormLabel>人数</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  onRangeChange(value);
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="人数を選択してください" />
@@ -109,8 +110,7 @@ export function ToggleMember() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
