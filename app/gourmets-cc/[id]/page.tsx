@@ -12,8 +12,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const ShopDetailPage = ({ params }: { params: { id: string } }) => {
   
@@ -76,7 +76,21 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
           <Carousel>
             <CarouselContent>
               <CarouselItem>
-                 src={shop.photo.pc.l} alt={shop.name} 
+              
+                    <Image
+                      src={shop.photo.pc.m}
+                      alt={shop.name}
+                      width={168}
+                      height={168}
+                    />
+              
+
+              <Image
+                    src={shop.photo.pc.m}
+                    alt={shop.name}
+                    width={168}
+                    height={168}
+                  />
               </CarouselItem>
           <CarouselItem>{shop.photo.pc.l}alt={shop.name} </CarouselItem>
           <CarouselItem>{}</CarouselItem>
