@@ -19,42 +19,45 @@ import {
 
 const items = [
   {
-    id: "Private-room",
+    id: "private_room=1",
     label: "個室あり",
   },
   {
-    id: "parking",
+    id: "parking=1",
     label: "駐車場あり",
   },
   {
-    id: "no-smoking",
-    label: "禁煙",
+    id: "non_smoking=1",
+    label: "禁煙席あり",
   },
 ] as const
 
 const FormSchema = z.object({
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+    items: z.array(z.string())
+    /*{{
     message: "You have to select at least one item.",
-  }),
+  }}),*/
 })
 
 export function CheckboxOrder() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      items: ["recents", "home"],
+      items: [],
     },
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
+    input(data)
+    //console.log(data)
+    {/*toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    })
+    })*/}
   }
 
   return (
@@ -67,9 +70,9 @@ export function CheckboxOrder() {
             <FormItem>
               <div className="mb-4">
                 <FormLabel className="text-base">その他絞り込み条件</FormLabel>
-                {/*<FormDescription>
-                  Select the items you want to display in the sidebar.
-          </FormDescription>*/}
+                <FormDescription>
+                  必要なものにチェックを入れてください
+                </FormDescription>
               </div>
               {items.map((item) => (
                 <FormField
@@ -108,6 +111,7 @@ export function CheckboxOrder() {
             </FormItem>
           )}
         />
+        <Button type="submit">Submit</Button> 
       </form>
     </Form>
   )

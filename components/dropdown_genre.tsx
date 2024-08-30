@@ -26,11 +26,11 @@ import {
 
 const FormSchema = z.object({
   range: z.string({
-    required_error: "場所を選択してください",
+    required_error: "予算額を選択してください.",
   }),
 })
 
-export function TogglePlace() {
+export function ToggleGenre() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
@@ -41,20 +41,17 @@ export function TogglePlace() {
     let arrayToSave: string[] = []
 
     switch(data.range) {
-      case "国際通り":
-        arrayToSave = ["X114"]
+      case "0-2000":
+        arrayToSave = ["B009", "B011", "B010", "B009"]
         break
-      case "新都心":
-        arrayToSave = ["Z717"]
+      case "2001-4000":
+        arrayToSave = ["B003"]
         break
-      case "久茂地":
-        arrayToSave = ["XX00"]
+      case "4001-5000":
+        arrayToSave = ["B008"]
         break
-      case "那覇松山・若狭":
-        arrayToSave = ["X716"]
-        break
-      case "その他の那覇地域":
-        arrayToSave = ["X718", "X719", "X720", "XX01", "XX02", "XX03", "XX04", "XX05", "XX06", "XX07", "XX0j", "XX0R"]
+      case "5001+":
+        arrayToSave = ["B004", "B005", "B006", "B012", "B013", "B014"]
         break
     }
 
@@ -82,19 +79,18 @@ export function TogglePlace() {
           name="range"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>場所</FormLabel>
+              <FormLabel>金額</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="場所を選択してください" />
+                    <SelectValue placeholder="予算を選択してください" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="国際通り">国際通り</SelectItem>
-                  <SelectItem value="新都心">新都心</SelectItem>
-                  <SelectItem value="久茂地">久茂地</SelectItem>
-                  <SelectItem value="那覇松山・若狭">那覇松山・若狭</SelectItem>
-                  <SelectItem value="その他の那覇地域">その他の那覇地域</SelectItem>
+                  <SelectItem value="0-2000">～2000</SelectItem>
+                  <SelectItem value="2001-4000">2001～4000</SelectItem>
+                  <SelectItem value="4001-5000">4001～5000</SelectItem>
+                  <SelectItem value="5001+">5001～</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

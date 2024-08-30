@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ToggleMember } from "@/components/dropdown_member";
+//import { ToggleGenre } from "@/components/dropdown_genre";
 import { TogglePlace } from "@/components/dropdown_place";
 import { TogglePrice } from "@/components/dropdown_price";
 import { CheckboxOrder } from "@/components/CheckboxOrder";
@@ -13,8 +14,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function Page() {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword,] = useState("");
   const [date, setDate] = React.useState<Date | undefined>(new Date());
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -24,8 +26,9 @@ export default function Page() {
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log("button click", keyword);
+    console.log("button click", keyword, );
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center pt-36 pb-13">
@@ -55,7 +58,9 @@ export default function Page() {
 
       </div>
       <div className="flex items-center justify-center gap-20">
-        <button>絞り込み検索</button>
+        <Button type="submit" onClick={handleButtonClick} className="max-w-sm">
+          絞り込み検索
+        </Button>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+
 import {
   Select,
   SelectContent,
@@ -96,7 +97,7 @@ export function TogglePrice() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {/*<Button type="submit">Submit</Button>*/}
       </form>
     </Form>
   )
