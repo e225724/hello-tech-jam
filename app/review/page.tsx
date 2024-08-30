@@ -6,7 +6,6 @@ import StarRating from "@/components/ui/star-rating";
 import { Textarea } from "@/components/ui/textarea";
 import ProfileForm from "@/components/ui/profile-form-atmosphere";
 import ProfileFormApplication from "@/components/ui/profile-form-application";
-import { POST } from "../api/databases/route";
 
 export default function ReviewPage() {
   const [jobTitle, setJobTitle] = useState<string>("");
