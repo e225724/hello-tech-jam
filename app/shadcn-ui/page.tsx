@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ToggleMember } from "@/components/dropdown_member";
+import { TogglePlace } from "@/components/dropdown_place";
+import { TogglePrice } from "@/components/dropdown_price";
+import { CheckboxOrder } from "@/components/CheckboxOrder";
+
+
 
 export default function Page() {
   const [keyword, setKeyword] = useState("");
@@ -19,8 +25,8 @@ export default function Page() {
   };
 
   return (
-    <div className="flex items-start justify-center pt-36">
-      <form className="flex items-center space-x-4">
+    <div className="flex flex-col items-center justify-center pt-36 pb-13">
+      <form className="flex items-center space-x-4 mb-4">
         <Input
           type="search"
           placeholder="検索..."
@@ -31,6 +37,14 @@ export default function Page() {
           検索
         </Button>
       </form>
+
+      <div className="flex items-center justify-center gap-20">
+        <ToggleMember />
+        <TogglePlace />
+        <TogglePrice />
+        <CheckboxOrder />
+
+      </div>
     </div>
   );
 }
