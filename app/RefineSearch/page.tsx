@@ -9,7 +9,6 @@ import { TogglePlace } from "@/components/dropdown_place";
 import { TogglePrice } from "@/components/dropdown_price";
 import { CheckboxOrder } from "@/components/CheckboxOrder";
 import { Calendar } from "@/components/ui/calendar";
-import { SelectForm } from "@/components/SelectForm";
 
 import { useToast } from "@/components/ui/use-toast";
 
@@ -43,7 +42,6 @@ export default function Page() {
         <ToggleMember />
         <TogglePlace />
         <TogglePrice />
-        <SelectForm />
 
       </div>
       <div className="flex items-center justify-center gap-20">

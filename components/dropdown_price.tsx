@@ -1,78 +1,73 @@
 "use client"
 
-import Link from "next/link"
+import React, { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
+//import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
-  email: z
-    .string({
-      required_error: "予算額を選択してください",
-    })
-    .email(),
+  range: z.string({
+    required_error: "予算額を選択してください.",
+  }),
 })
 
 export function TogglePrice() {
-  const [value, setValue] = useState([]);
-  const handleClick = (range) => {
-    let newValue;
-    switch (range) {
-      case '2000':
-        newValue = ["B009", "B011", "B010", "B009"];
-        break;
-      case '3000-4000':
-        newValue = ["B003"];
-        break;
-      case '4000-5000':
-        newValue = ["B008"];
-        break;
-      case '5000':
-        newValue = ["B004","B005","B006","B012","B013","B014",];
-        break;
-      default:
-        newValue = [];
-    }
-    setValue(newValue);
-  };
-  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
+  
+  const [selectedArray, setSelectedArray] = useState<string[]>([])
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-   {/*} toast({
-      title: "You submitted the following values:",
+    let arrayToSave: string[] = []
+
+    switch(data.range) {
+      case "0-2000":
+        arrayToSave = ["B009", "B011", "B010", "B009"]
+        break
+      case "2001-4000":
+        arrayToSave = ["B003"]
+        break
+      case "4001-5000":
+        arrayToSave = ["B008"]
+        break
+      case "5001+":
+        arrayToSave = ["B004", "B005", "B006", "B012", "B013", "B014"]
+        break
+    }
+
+    // useStateで保存
+    setSelectedArray(arrayToSave)
+    
+    // コンソールに出力
+    console.log(arrayToSave)
+{/*}
+    toast({
+      title: "You selected the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          <code className="text-white">{JSON.stringify(arrayToSave, null, 2)}</code>
         </pre>
       ),
     })*/}
-    
-    
   }
 
   return (
@@ -80,73 +75,29 @@ export function TogglePrice() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
-          name="予算額"
+          name="range"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>予算額</FormLabel>
+              <FormLabel>金額</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="予算額を選択する" />
+                    <SelectValue placeholder="予算を選択してください" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                    <SelectItem onClick={() => handleClick('2000')}>～2000</SelectItem>
-                    <SelectItem onClick={() => handleClick('3000')}>2001～4000</SelectItem>
-                    <SelectItem onClick={() => handleClick('4000')}>4001～5000</SelectItem>
-                    <SelectItem onClick={() => handleClick('5000')}>5001～</SelectItem>
+                  <SelectItem value="0-2000">～2000</SelectItem>
+                  <SelectItem value="2001-4000">2001～4000</SelectItem>
+                  <SelectItem value="4001-5000">4001～5000</SelectItem>
+                  <SelectItem value="5001+">5001～</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )
 }
-
-
-
-
-{/*
-"use client";
-
-import * as React from "react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-export function TogglePrice() {
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>
-          <span className="sr-only">Toggle Price</span>
-          <p>価格</p>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          ～2000
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          2000～3000
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          3000～4000
-        </DropdownMenuItem>
-        <DropdownMenuItem >
-          4000～
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-*/}

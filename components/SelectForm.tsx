@@ -47,7 +47,7 @@ export function SelectForm() {
         </pre>
       ),
     })*/}
-    console.log(form)
+   
   }
 
   return (
