@@ -12,7 +12,6 @@ class APIError extends Error {
 }
 
 async function fetchHotpepperData(url: string): Promise<any> {
-  console.log("fetchHandler");
   const response = await fetch(url);
   if (!response.ok) {
     throw new APIError(
@@ -41,33 +40,39 @@ function handleError(error: unknown): NextResponse {
   );
 }
 
-export async function GET(request: Request) {
-  console.log("GET");
-  try {
-    const { searchParams } = new URL(request.url);
-    const key = process.env.HOTPEPPER_API_KEY;
-    if (!key) {
-      throw new APIError(500, "API key is not set");
+
+export async function GET(
+    request: Request,
+    { params }: { params?: { id: string } },
+  ) {
+    console.log(params);
+    try {
+      const key = process.env.HOTPEPPER_API_KEY;
+      if (!key) {
+        throw new APIError(500, "API key is not set");
+      }
+      if (!params?.id) {
+        throw new APIError(400, "Shop ID is not provided");
+      }
+      const query = new URLSearchParams({
+        key,
+        format: "json",
+        id: params.id,
+      });
+
+      
+
+      const url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
+      const shops = await fetchHotpepperData(url);
+  
+      if (shops.length === 0) {
+        throw new APIError(404, "Shop not found");
+      }
+  
+      const shop = shops[0];
+  
+      return NextResponse.json(shop);
+    } catch (error) {
+      return handleError(error);
     }
-
-    const query = new URLSearchParams({
-      key,
-      format: "json",
-      id: searchParams.get("id")||"",
-      large_area: searchParams.get("large_area") || "Z098",
-    });
-
-    const keyword = searchParams.get("keyword");
-    if (keyword) query.set("keyword", keyword);
-
-    const id = searchParams.get("id");
-    if (id) query.set("id", id);
-
-
-    const url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
-    const data = await fetchHotpepperData(url);
-    return NextResponse.json(data);
-  } catch (error: unknown) {
-    return handleError(error);
   }
-}
