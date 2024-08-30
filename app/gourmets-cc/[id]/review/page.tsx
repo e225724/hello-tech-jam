@@ -1,13 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import { SelectForm } from "@/components/ui/select-form-review";
 import StarRating from "@/components/ui/star-rating";
 import { Textarea } from "@/components/ui/textarea";
 import ProfileForm from "@/components/ui/profile-form-atmosphere";
 import ProfileFormApplication from "@/components/ui/profile-form-application";
+import Link from "next/link";
 
 export default function ReviewPage() {
+  const params = useParams();
+  const shopId = params.id;
+  const searchParams = useSearchParams();
+  const shopName = searchParams.get("shopName");
+
   const [jobTitle, setJobTitle] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [textareaValue, setTextareaValue] = useState<string>("");
@@ -25,8 +32,8 @@ export default function ReviewPage() {
         },
         body: JSON.stringify({
           reviewer: textareaValue,
-          shop_id: "your-shop-id", // 必要に応じて設定してください
-          role: role, // 必要に応じて設定
+          shop_id: shopId,
+          role: role,
           rating: rating,
           detailReviewer: {
             detailed_reviewer_1: price,
@@ -54,7 +61,15 @@ export default function ReviewPage() {
 
   return (
     <div>
-      <h1>レビュー画面</h1>
+      {/* Flexboxを使用して、タイトルと戻るボタンを水平に並べる */}
+      <div className="flex justify-between items-center p-4">
+        <h1 className="text-3xl font-bold">{shopName}</h1>
+        <Link href={`/gourmets-cc/${shopId}`}>
+          <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400">
+            戻る
+          </button>
+        </Link>
+      </div>
       <div className="flex justify-center">
         <h3>役職</h3>
       </div>
@@ -73,9 +88,9 @@ export default function ReviewPage() {
       <div className="flex justify-center my-4">
         <button
           onClick={handleSubmit}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" // 色を加えたスタイル
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
         >
-          Submit All
+          レビューする
         </button>
       </div>
     </div>
