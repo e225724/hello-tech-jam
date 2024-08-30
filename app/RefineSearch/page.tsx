@@ -8,7 +8,6 @@ import { TogglePlace } from "@/components/dropdown_place";
 import { TogglePrice } from "@/components/dropdown_price";
 import { CheckboxOrder } from "@/components/CheckboxOrder";
 import { Calendar } from "@/components/ui/calendar";
-import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [keyword, setKeyword] = useState("");
@@ -17,26 +16,16 @@ export default function Page() {
   const [priceRange, setPriceRange] = useState<string[]>([]);
   const [placeRange, setPlaceRange] = useState<string[]>([]);
   const [checkboxOrder, setCheckboxOrder] = useState<string[]>([]);
-  const [location, setLocation] = useState("");
-  const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-
     setKeyword(value);
     console.log(keyword);
   };
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log(
-      "button click",
-      keyword,
-      memberRange,
-      priceRange,
-      placeRange,
-      CheckboxOrder,
-    );
+    console.log("button click", keyword, memberRange, priceRange, placeRange, CheckboxOrder);
   };
 
   const handleMemberSelect = (selectedArray: string[]) => {
@@ -59,14 +48,6 @@ export default function Page() {
     setCheckboxOrder(selectedArray3);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const searchParams = new URLSearchParams();
-    if (keyword) searchParams.append("keyword", keyword);
-    if (location) searchParams.append("location", location);
-    router.push(`/gourmets-cc?${searchParams.toString()}`);
-  };
-
   return (
     <div className="flex flex-col items-center justify-center pt-36 pb-13">
       <form className="flex items-center space-x-4 mb-4">
@@ -80,7 +61,7 @@ export default function Page() {
 
       <div className="flex items-center justify-center gap-20">
         <ToggleMember onMemberSelect={handleMemberSelect} />
-        <TogglePlace onPlaceSelect={handlePlaceSelect} />
+        <TogglePlace onPlaceSelect={handlePlaceSelect}/>
         <TogglePrice onPriceSelect={handlePriceSelect} />
       </div>
       <div className="flex items-center justify-center gap-20">
@@ -93,7 +74,7 @@ export default function Page() {
         <CheckboxOrder onCheckboxOrder={handleCheckboxOrder} />
       </div>
       <div className="flex items-center justify-center gap-20">
-        <Button type="submit" onClick={handleSubmit} className="max-w-sm">
+        <Button type="submit" onClick={handleButtonClick} className="max-w-sm">
           絞り込み検索
         </Button>
       </div>
