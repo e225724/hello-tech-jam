@@ -1,9 +1,7 @@
-// components/ui/select-form-review.tsx
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -30,20 +28,26 @@ export function SelectForm({ onJobTitleChange }: SelectFormProps) {
   }
 
   return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="w-40 ml-4 space-y-6"
-    >
-      <Select onValueChange={(value) => form.setValue("jobTitle", value)}>
-        <SelectTrigger>
-          <SelectValue placeholder="役職を選択" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Manager">マネージャー</SelectItem>
-          <SelectItem value="Employee">社員</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button type="submit">Submit</Button>
-    </form>
+    <div className="flex justify-center">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-40" // 幅を40pxに設定
+      >
+        <Select
+          onValueChange={(value) => {
+            form.setValue("jobTitle", value);
+            onJobTitleChange(value);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="役職を選択" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Manager">マネージャー</SelectItem>
+            <SelectItem value="Employee">社員</SelectItem>
+          </SelectContent>
+        </Select>
+      </form>
+    </div>
   );
 }

@@ -1,4 +1,3 @@
-// components/ui/star-rating.tsx
 import React, { useState } from "react";
 
 interface StarProps {
@@ -24,7 +23,15 @@ const StarRating: React.FC<StarRatingProps> = ({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
+      {" "}
+      {/* 中央に配置 */}
       {[...Array(totalStars)].map((_, index) => (
         <Star
           key={index}
