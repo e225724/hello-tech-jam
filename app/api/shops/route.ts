@@ -40,10 +40,10 @@ function handleError(error: unknown): NextResponse {
 }
 
 export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const searchParams = new URLSearchParams(url.search);
+  // request.url を使用せずに searchParams を取得
+  const searchParams = new URLSearchParams(request.url.split("?")[1] || "");
 
+  try {
     const key = process.env.HOTPEPPER_API_KEY;
     if (!key) {
       throw new APIError(500, "API key is not set");
@@ -64,8 +64,8 @@ export async function GET(request: Request) {
     const keyword = searchParams.get("keyword");
     if (keyword) query.set("keyword", keyword);
 
-    const apiUrl = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
-    const data = await fetchHotpepperData(apiUrl);
+    const url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?${query.toString()}`;
+    const data = await fetchHotpepperData(url);
     console.log(data);
     console.log(query.toString());
     return NextResponse.json(data);
