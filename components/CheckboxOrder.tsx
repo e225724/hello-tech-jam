@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,7 +15,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 //import { toast } from "@/components/ui/use-toast"
 
 const items = [
@@ -31,11 +31,11 @@ const items = [
     id: "non_smoking=1",
     label: "禁煙席あり",
   },
-] as const
+] as const;
 
 const FormSchema = z.object({
-    items: z.array(z.string())
-})
+  items: z.array(z.string()),
+});
 
 export function CheckboxOrder({
   onCheckboxOrder,
@@ -47,12 +47,12 @@ export function CheckboxOrder({
     defaultValues: {
       items: [],
     },
-  })
+  });
 
-  const [selectedArray3, setSelectedArray3] = useState<string[]>([])
+  const [selectedArray3, setSelectedArray3] = useState<string[]>([]);
 
   function onRangeChange(value: string) {
-    let arrayToSave: string[] = []
+    let arrayToSave: string[] = [];
   }
 
   return (
@@ -84,14 +84,16 @@ export function CheckboxOrder({
                           <Checkbox
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  )
-                                onRangeChange(value);
+                              const updatedValue = checked
+                                ? [...field.value, item.id]
+                                : field.value?.filter(
+                                    (value) => value !== item.id,
+                                  );
+
+                              field.onChange(updatedValue);
+
+                              // onRangeChangeを呼び出す
+                              onRangeChange(item.id);
                             }}
                             defaultValue={field.value}
                           />
@@ -100,7 +102,7 @@ export function CheckboxOrder({
                           {item.label}
                         </FormLabel>
                       </FormItem>
-                    )
+                    );
                   }}
                 />
               ))}
@@ -108,8 +110,8 @@ export function CheckboxOrder({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button> 
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
