@@ -19,9 +19,6 @@ import Link from "next/link";
 
 const ShopDetailPage = ({ params }: { params: { id: string } }) => {
   const [shop, setShop] = useState<Shop | null>(null);
-
-  console.log(params.id);
-
   // useEffect(() => {
   //   if (id) {
   //     // URLのIDを使用してショップの詳細情報を取得
@@ -58,7 +55,14 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mt-4">{shop.name}</h1>
+      <div className="flex justify-between items-center p-4">
+        <h1 className="text-3xl font-bold">{shop.name}</h1>
+        <Link href={"/gourmets-cc"}>
+          <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400">
+            戻る
+          </button>
+        </Link>
+      </div>
 
       {/* <img src={shop.photo.pc.m} alt={shop.name} /> */}
       <div className="flex flex-row">
@@ -68,28 +72,13 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
             <CardHeader className="text-center">
               <CardTitle className="text-3xl font-bold mt-4"></CardTitle>
             </CardHeader>
-            <CardContent className="my-1 space-y-4 text-center">
-              <Carousel>
-                <CarouselContent>
-                  <CarouselItem>
-                    <Image
-                      src={shop.photo.pc.m}
-                      alt={shop.name}
-                      width={300}
-                      height={300}
-                      // style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                    />
-                  </CarouselItem>
-                  <CarouselItem>
-                    {shop.photo.pc.l}alt={shop.name}{" "}
-                  </CarouselItem>
-                  <CarouselItem>{}</CarouselItem>
-                  <CarouselItem></CarouselItem>
-                  <CarouselItem></CarouselItem>
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
+            <CardContent className="my-1 flex justify-center items-center">
+              <Image
+                src={shop.photo.pc.m}
+                alt={shop.name}
+                width={300}
+                height={300}
+              />
             </CardContent>
           </Card>
           <div>
@@ -170,21 +159,6 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
             </CardContent>
           </Card>
         </div>
-      </div>
-      <div>
-        <Button type="submit" className="max-w-sm">
-          予約する
-        </Button>
-        <Link
-          href={`/gourmets-cc/${params.id}/review?shopName=${encodeURIComponent(shop.name)}`}
-        >
-          <Button
-            type="button"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-          >
-            レビューを書く
-          </Button>
-        </Link>
       </div>
     </div>
   );
