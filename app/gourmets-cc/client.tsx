@@ -65,9 +65,7 @@ const GourmetsClient = ({ initialShops }: { initialShops: Shop[] }) => {
                   <CardTitle>{shop.name}</CardTitle>
                 </CardHeader>
                 <p className="mt-1">{shop.address || "住所情報なし"}</p>
-                <p className="mt-1">
-                  {shop.budget.average || "ジャンル情報なし"}
-                </p>
+                <p className="mt-1">{shop.budget.average || "金額情報なし"}</p>
                 <Avatar
                   className="mx-auto"
                   style={{ width: "120px", height: "120px" }}
