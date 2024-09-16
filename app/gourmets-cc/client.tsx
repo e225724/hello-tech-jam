@@ -56,40 +56,24 @@ const GourmetsClient = ({ initialShops }: { initialShops: Shop[] }) => {
         />
         <Button type="submit">検索</Button>
       </form>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full">
+      <div className="grid grid-cols-4 gap-6 w-full">
         {shops.length > 0 ? (
-          // shops.map((shop) => (
-          //   <Card key={shop.id}>
-          //     <CardHeader className="space-y-4 p-6">
-          //       <Avatar className="w-12 h-12">
-          //         <AvatarImage src={shop.photo.pc.m} />
-          //         <AvatarFallback>CN</AvatarFallback>
-          //       </Avatar>
-          //       <CardTitle>{shop.name}</CardTitle>
-          //     </CardHeader>
-          //     <CardContent>
-          //       <p>{shop.address || "住所情報なし"}</p>
-          //       <p>{shop.genre?.name || "ジャンル情報なし"}</p>
-          //     </CardContent>
-          //   </Card>
-          // ))
           shops.map((shop) => (
             <Link key={shop.id} href={`gourmets-cc/${shop.id}`}>
-              
-                <Card>
-                  <CardHeader className="space-y-4 p-6">
-                    <Avatar className="w-12 h-12">
-                      <AvatarImage src={shop.photo.pc.m} />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <CardTitle>{shop.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>{shop.address || "住所情報なし"}</p>
-                    <p>{shop.genre?.name || "ジャンル情報なし"}</p>
-                  </CardContent>
-                </Card>
-              
+              <Card className="w-full h-80 overflow-y-auto">
+                <CardHeader className="flex flex-col items-center space-y-4 p-6">
+                  <CardTitle>{shop.name}</CardTitle>
+                </CardHeader>
+                <p className="mt-1">{shop.address || "住所情報なし"}</p>
+                <p className="mt-1">{shop.budget.average || "金額情報なし"}</p>
+                <Avatar
+                  className="mx-auto"
+                  style={{ width: "120px", height: "120px" }}
+                >
+                  <AvatarImage src={shop.photo.pc.m} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </Card>
             </Link>
           ))
         ) : (
