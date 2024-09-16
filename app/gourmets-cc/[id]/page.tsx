@@ -93,9 +93,11 @@ const ShopDetailPage = ({ params }: { params: { id: string } }) => {
             </CardContent>
           </Card>
           <div>
-            <Button type="submit" className="max-w-sm">
-              予約する
-            </Button>
+            <Link href={shop.urls.pc}>
+              <Button type="submit" className="max-w-sm">
+                予約する
+              </Button>
+            </Link>
             <Link
               href={`/gourmets-cc/${params.id}/review?shopName=${encodeURIComponent(shop.name)}`}
             >
